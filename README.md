@@ -88,3 +88,23 @@ import("css/application")
 
 https://joelc.io/dynamic-autocomplete-rails-6
 
+# Heroku
+
+Got an error with webpacker 4.3.0 on Heroku deploy:
+
+```
+       /app/.node-gyp/16.13.1/include/node/node.h:821:43: warning: cast between incompatible function types from ‘void (*)(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE)’ {aka ‘void (*)(v8::Local<v8::Object>)’} to ‘node::addon_register_func’ {aka ‘void (*)(v8::Local<v8::Object>, v8::Local<v8::Value>, void*)’} [-Wcast-function-type]
+         821 |       (node::addon_register_func) (regfunc),                          \
+             |                                           ^
+       /app/.node-gyp/16.13.1/include/node/node.h:855:3: note: in expansion of macro ‘NODE_MODULE_X’
+         855 |   NODE_MODULE_X(modname, regfunc, NULL, 0)  // NOLINT (readability/null_usage)
+             |   ^~~~~~~~~~~~~
+       ../src/binding.cpp:358:1: note: in expansion of macro ‘NODE_MODULE’
+         358 | NODE_MODULE(binding, RegisterModule);
+             | ^~~~~~~~~~~
+       make: *** [binding.target.mk:133: Release/obj.target/binding/src/binding.o] Error 1
+```
+
+Proposed solution, use newer webpacker:
+
+yarn upgrade @rails/webpacker --latest
